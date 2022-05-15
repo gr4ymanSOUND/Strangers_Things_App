@@ -1,0 +1,86 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 20px;
+}
+
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+header {
+    background-color: black;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    flex-basis: 6rem;
+    padding: 10px;
+}
+
+#content-body {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: stretch;
+    padding: .5rem;
+}
+
+main {
+    color: white;
+    width: 60%;
+}
+
+.post {
+    background-color: gray;
+    margin-bottom: 1rem;
+}
+
+.post h3 {
+    background-color: black;
+    padding: 5px;
+}
+
+.post p {
+    padding: 5px;
+}
+
+aside {
+    width: 35%;
+    max-width: 350px;
+    border: 1px black solid;
+    margin-left: 2rem;
+}
+
+footer {
+    background-color: gray;
+    text-align: center;
+    flex-basis: 3rem;
+    margin-top: auto;
+}
+
+.nav-link {
+    display: inline-block;
+    text-decoration: none;
+    padding: 1rem;
+    color: white;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+form {
+    width: 20rem;
+    height: 6rem;
+    margin: 2rem;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+}

@@ -34,6 +34,8 @@ header {
 main {
     color: white;
     width: 60%;
+    max-width: 600px;
+    margin: 2rem;
 }
 
 .post {
@@ -52,9 +54,9 @@ main {
 
 aside {
     width: 35%;
-    max-width: 350px;
+    max-width: 400px;
     border: 1px black solid;
-    margin-left: 2rem;
+    margin: 2rem;
 }
 
 footer {

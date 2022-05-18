@@ -1,24 +1,34 @@
 import React, { useState } from "react";
 import { loginUser, registerUser } from "../api";
 
-const Login = ({ setToken }) => {
+const Login = ({ setToken}) => {
     //form state
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
     let register = false;
 
+    // test user: testAustintest
+    // pass: testing
     const submitHandler = async (e) => {
         e.preventDefault();
         if (register) {
             console.log('testing register function: ', userName, password);
-            // let result = loginUser(userName, password)
-            // setToken(result.data.token);
-            // maybe also set userName and password back to empty strings so they're not just hanging around in state?
+            let result = await registerUser(userName, password)
+            setToken(result.data.token);
+            localStorage.setItem('jwt', result.data.token);
+            setUserName('');
+            setPassword('');
         } else {
             console.log('testing login function: ', userName, password);
-            // let result = registerUser(userName, password)
-            // setToken(result.data.token);
+            let result = await loginUser(userName, password);
+            console.log(result.data);
+            setToken(result.data.token);
+            localStorage.setItem('jwt', result.data.token);
+            setUserName('');
+            setPassword('');
+            //redirect to profile again - currently giving an error and not necessary
+            // history.push('/Profile');
         }
     }
   
@@ -63,7 +73,7 @@ const Login = ({ setToken }) => {
             regRequirements.style.display = 'block';
             let submitButton = document.getElementById('submit-button');
             submitButton.innerText = "Register";
-        }}>Register New User</button>
+        }}>New? Click Here to Register</button>
         
       </form>
     );

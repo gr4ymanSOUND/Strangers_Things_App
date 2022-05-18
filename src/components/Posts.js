@@ -3,7 +3,7 @@ import React from "react";
 
 const Posts = (props) => {
 
-    const {postings} = props;
+    const {token, postings, history} = props;
 
     return (
         <>
@@ -19,12 +19,14 @@ const Posts = (props) => {
             })
         }
         </main>
-        <aside>
-            {
-                // if the user is logged in, display the new post form
-            }
-            <div>new post form here</div>
-        </aside>
+        {
+            token ? (
+                <aside>
+                    <div>new post form here</div>
+                </aside>
+            ) : null
+        }
+
         </>
     )
 }

@@ -27,8 +27,6 @@ const Login = ({ setToken}) => {
             localStorage.setItem('jwt', result.data.token);
             setUserName('');
             setPassword('');
-            //redirect to profile again - currently giving an error and not necessary
-            // history.push('/Profile');
         }
     }
   
@@ -36,7 +34,7 @@ const Login = ({ setToken}) => {
       <form onSubmit={submitHandler}>
         <div id="register-requirements" style={{display: 'none'}}>
             <h3>Create a New User</h3>
-            <p>username must be only letters</p>
+            <p>username must be at least 8 characters</p>
             <p>password must be at least 8 characters</p>
         </div>
         <div className="form-section">
@@ -45,6 +43,7 @@ const Login = ({ setToken}) => {
           </label>
           <input
             type="text"
+            minLength={'8'}
             value={userName}
             onChange={({target: {value}}) => setUserName(value)}
             className="form-control"
@@ -58,6 +57,7 @@ const Login = ({ setToken}) => {
           </label>
           <input
             type="password"
+            minLength={'8'}
             value={password}
             onChange={({target: {value}}) => setPassword(value)}
             className="form-control"

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router , Route , Link, useHistory } from 'react-router-dom';
+import { fetchAllPosts } from "./api";
 import Posts from './components/Posts';
 import Profile from './components/Profile';
-import { fetchAllPosts } from "./api";
+import AuthPosts from './components/AuthPosts';
 
 const container = document.getElementById('app');
 const root = createRoot(container);
@@ -39,11 +40,21 @@ const App = () => {
                     // include the search bar here if we get to that
                 }
                 <Route path='/posts' >
-                    <Posts
-                        token={token}
-                        postings={postings}
-                        history={history}
-                    />
+                    {
+                        token ? (
+                            <AuthPosts 
+                                token={token}
+                                postings={postings}
+                                history={history}
+                            />
+                        ) : (
+                            <Posts
+                                token={token}
+                                setToken={setToken}
+                                postings={postings}
+                            />
+                        )
+                    }
                 </Route>
                 <Route path='/profile'>
                     <Profile

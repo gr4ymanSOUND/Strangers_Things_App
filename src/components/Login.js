@@ -10,6 +10,9 @@ const Login = ({ setToken}) => {
 
     // test user: testAustintest
     // pass: testing
+
+    // add log out function if extra time
+    
     const submitHandler = async (e) => {
         e.preventDefault();
         if (register) {
@@ -32,15 +35,13 @@ const Login = ({ setToken}) => {
   
     return (
       <form onSubmit={submitHandler}>
-        <div id="register-requirements" style={{display: 'none'}}>
-            <h3>Create a New User</h3>
-            <p>username must be at least 8 characters</p>
-            <p>password must be at least 8 characters</p>
-        </div>
+        <h3 id='form-message'>Please Log In</h3>
+        <ul id="register-requirements">
+            <li>username must be at least 8 characters</li>
+            <li>password must be at least 8 characters</li>
+        </ul>
         <div className="form-section">
-          <label className="form-label">
-            Username:
-          </label>
+          <label className="form-label">Username:</label>
           <input
             type="text"
             minLength={'8'}
@@ -52,12 +53,10 @@ const Login = ({ setToken}) => {
           />
         </div>
         <div className="form-section">
-          <label className="form-label">
-            Password:
-          </label>
+          <label className="form-label">Password:</label>
           <input
             type="password"
-            minLength={'8'}
+            minLength={'7'}
             value={password}
             onChange={({target: {value}}) => setPassword(value)}
             className="form-control"
@@ -69,6 +68,7 @@ const Login = ({ setToken}) => {
         <button id="register-switch" type='button' onClick={() => {
             register = !register;
             document.getElementById('register-switch').style.display = 'none';
+            document.getElementById('form-message').innerText = 'Create a New User';
             let regRequirements = document.getElementById('register-requirements');
             regRequirements.style.display = 'block';
             let submitButton = document.getElementById('submit-button');

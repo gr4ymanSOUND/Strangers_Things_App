@@ -14,7 +14,36 @@ export async function fetchAllPosts(token) {
         const result = await response.json();
         return result;
     } catch (err) {
-        throw err;
+        console.log(err);
+    }
+}
+
+export async function makeNewPost(postTitle, postDescription, postPrice, postLocation, postDeliver) {
+    try {
+        const response = await fetch(`${BASE_URL}/posts`, {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+              post: {
+                title: postTitle,
+                description: postDescription,
+                price: postPrice,
+                location: postLocation,
+                willDeliver: postDeliver
+              }
+            })
+          }).then(response => response.json())
+            .then(result => {
+              console.log(result);
+            })
+            .catch(console.error);
+        const result = await response.json();
+        return result;
+    } catch (err) {
+        console.log(err);
     }
 }
 
@@ -37,7 +66,7 @@ export async function registerUser(user, pass) {
         console.log(result);
         return result;
     } catch (err) {
-        throw err;
+        console.log(err);
     }
 }
 
@@ -60,7 +89,7 @@ export async function loginUser(user, pass) {
         console.log(result);
         return result;
     } catch (err) {
-        throw err;
+        console.log(err);
     }
 }
 

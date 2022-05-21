@@ -14,6 +14,8 @@ const AuthPosts = (props) => {
                 // takes the date provided by the API, converts it to a Date Object and then converts it to a new string with a more readable format for display
                 let date = new Date(post.createdAt);
                 let postDate = date.toDateString();
+
+                console.log(post.messages);
                 
                 return(
                     <div className='post' key={post._id}>
@@ -26,17 +28,27 @@ const AuthPosts = (props) => {
                         }</div>
                         <p>{post.description}</p>
                         <div id='post-messages'>
-                            <h4>messages</h4>
-                            <div className='single-message'>
-                                <div className='message-from'>user</div>
-                                <div className='message-body'>message content will go here</div> 
-                            </div>
+                            <h4>Messages</h4>
+                            {
+                            // ternary to show either "no messages" or the list of messages
+                            // maybe make this its own component, and reuse it on the profile
+                            // add a way to account for whether the post is made by the user to determine whether to show this entire component
+                            !(post.messages == []) ? (<div>No Messages...</div>) : (
+                                post.messages.map((message) => {
+                                    return (
+                                        <div className='single-message'>
+                                            <div className='message-from'>{message.fromUser.username}</div>
+                                            <div className='message-body'>{message.content}</div> 
+                                        </div>
+                                    )
+                                })
+                            )
+                            }
                         </div>
                         {
-                        // will likely need an extra ternary operator here to decide whether it's a post the user made or not, so we can selectively display the delete/message button in the correct context; we don't want to message ourselves, and we don't want to delete a post we didn't make
+                        // ternary to display the delete or message button depending on whether the user is the Author of the post
+                        post.isAuthor ? <button>Delete Post</button> : <button>Send Message</button>
                         }
-                        <button>Delete Post</button>
-                        <button>Send Message</button>
                     </div>
                 )
             })

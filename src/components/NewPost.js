@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { makeNewPost } from "../api";
 
 const NewPost = () => {
 
@@ -11,7 +12,14 @@ const NewPost = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         //code to handle when the submit button is clicked
+        // makeNewPost(postTitle, postDescription, postPrice, postLocation, postDeliver);
         console.log(postTitle, postDescription, postPrice, postLocation, postDeliver);
+        // reset the form after submission
+        setPostTitle('')
+        setPostDescription('')
+        setPostPrice('')
+        setPostLocation('')
+        setPostDeliver('')
     }
 
     return (
@@ -23,6 +31,7 @@ const NewPost = () => {
                     value={postTitle}
                     onChange={({target: {value}}) => setPostTitle(value)}
                     id='new-post-title'
+                    required
                 />
             </div>
             <div className='form-section'>
@@ -36,6 +45,7 @@ const NewPost = () => {
                     value={postDescription}
                     onChange={({target: {value}}) => setPostDescription(value)}
                     id='new-post-description'
+                    required
                 ></textarea>
             </div>
             <div className='form-section'>
@@ -45,6 +55,7 @@ const NewPost = () => {
                     value={postPrice}
                     onChange={({target: {value}}) => setPostPrice(value)}
                     id='new-post-price'
+                    required
                 />
             </div>
             <div className='form-section'>

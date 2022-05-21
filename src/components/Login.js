@@ -12,24 +12,26 @@ const Login = ({ setToken}) => {
     // pass: testing
 
     // add log out function if extra time
+
+    const saveToken = (token) => {
+      setToken(token);
+      localStorage.setItem('jwt', token);
+      setUserName('');
+      setPassword('');
+    }
     
     const submitHandler = async (e) => {
         e.preventDefault();
         if (register) {
             console.log('testing register function: ', userName, password);
             let result = await registerUser(userName, password)
-            setToken(result.data.token);
-            localStorage.setItem('jwt', result.data.token);
-            setUserName('');
-            setPassword('');
+            console.log(result.data);
+            saveToken(result.data.token);
         } else {
             console.log('testing login function: ', userName, password);
             let result = await loginUser(userName, password);
             console.log(result.data);
-            setToken(result.data.token);
-            localStorage.setItem('jwt', result.data.token);
-            setUserName('');
-            setPassword('');
+            saveToken(result.data.token);
         }
     }
   

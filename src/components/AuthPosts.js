@@ -54,9 +54,6 @@ const AuthPosts = (props) => {
             })
         }
         </main>
-        <aside>
-            <NewPost />
-        </aside>
         </>
     )
 }

@@ -1,16 +1,20 @@
 import React from "react";
+import AuthPosts from "./AuthPosts";
 import Login from "./Login";
+import NewPost from "./NewPost";
 
 
 const Posts = (props) => {
 
-    const {token, setToken, postings} = props;
+    const {token, setToken, postings, history} = props;
 
     return (
         <>
         <main>
         {
-            postings.map((post) => {
+            // ternary decides between a very basic post view and the Authorized Posts view with all info
+            !token ? (
+                postings.map((post) => {
 
                 // takes the date provided by the API, converts it to a Date Object and then converts it to a new string with a more readable format for display
                 let date = new Date(post.createdAt);
@@ -23,11 +27,22 @@ const Posts = (props) => {
                         <p>{post.description}</p>  
                     </div>
                 )
-            })
+            })) : (
+                <AuthPosts 
+                    token={token}
+                    postings={postings}
+                    history={history}    
+                /> )
         }
         </main>
         <aside>
-            <Login token={token} setToken={setToken}/>
+            {
+                !token ? (
+                    <Login token={token} setToken={setToken}/>
+                ) : (
+                    <NewPost />
+                )
+            }
         </aside>
         </>
     )

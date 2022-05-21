@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeNewPost } from "../api";
 
-const NewPost = () => {
+const NewPost = ({token, postings, setPostings}) => {
 
     const [postTitle, setPostTitle] = useState('');
     const [postDescription, setPostDescription] = useState('');
@@ -12,7 +12,8 @@ const NewPost = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         //code to handle when the submit button is clicked
-        // makeNewPost(postTitle, postDescription, postPrice, postLocation, postDeliver);
+        const newPost = await makeNewPost(token, postTitle, postDescription, postPrice, postLocation, postDeliver);
+        setPostings([...postings, newPost.data.post])
         console.log(postTitle, postDescription, postPrice, postLocation, postDeliver);
         // reset the form after submission
         setPostTitle('')
@@ -25,6 +26,7 @@ const NewPost = () => {
     return (
         <form onSubmit={submitHandler}>
             <div className='form-section'>
+                <h3>Make a New Post</h3>
                 <div className='form-label'>Post Title:</div>
                 <input
                     type='text'

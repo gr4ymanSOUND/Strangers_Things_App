@@ -18,7 +18,7 @@ export async function fetchAllPosts(token) {
     }
 }
 
-export async function makeNewPost(postTitle, postDescription, postPrice, postLocation, postDeliver) {
+export async function makeNewPost(token, postTitle, postDescription, postPrice, postLocation, postDeliver) {
     try {
         const response = await fetch(`${BASE_URL}/posts`, {
             method: "POST",
@@ -35,15 +35,30 @@ export async function makeNewPost(postTitle, postDescription, postPrice, postLoc
                 willDeliver: postDeliver
               }
             })
-          }).then(response => response.json())
-            .then(result => {
-              console.log(result);
-            })
-            .catch(console.error);
+          });
         const result = await response.json();
+        console.log(result);
         return result;
     } catch (err) {
         console.log(err);
+        alert(err);
+    }
+}
+
+export async function deletePost(token, postId) {
+    try {
+        const response = await fetch(`${BASE_URL}/posts/${postId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        });
+        const result = await response.json();
+        console.log('Delete post: ', result)
+        return result;
+    } catch (err) {
+        console.log('delete call error: ' + err);
     }
 }
 
@@ -66,7 +81,7 @@ export async function registerUser(user, pass) {
         console.log(result);
         return result;
     } catch (err) {
-        console.log(err);
+        console.log('register call error: ' + err);
     }
 }
 
@@ -89,7 +104,24 @@ export async function loginUser(user, pass) {
         console.log(result);
         return result;
     } catch (err) {
-        console.log(err);
+        console.log('login call error: ' + err);
+        alert(err);
+    }
+}
+
+export async function fetchUserData(token) {
+    try {
+        const response = await fetch(`${BASE_URL}/users/me`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        });
+        const result = await response.json();
+        console.log('user API: ', result);
+        return result.data;
+    } catch (err) {
+        console.log('user call error: ' + err);
     }
 }
 

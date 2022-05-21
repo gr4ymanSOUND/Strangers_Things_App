@@ -6,11 +6,12 @@ import NewPost from "./NewPost";
 
 const Posts = (props) => {
 
-    const {token, setToken, postings, history} = props;
+    const {token, setToken, postings, setPostings, history} = props;
 
     return (
         <>
         <main>
+        <h3 className={'page-title'}>Posts</h3>
         {
             // ternary decides between a very basic post view and the Authorized Posts view with all info
             !token ? (
@@ -31,6 +32,7 @@ const Posts = (props) => {
                 <AuthPosts 
                     token={token}
                     postings={postings}
+                    setPostings={setPostings}
                     history={history}    
                 /> )
         }
@@ -40,7 +42,7 @@ const Posts = (props) => {
                 !token ? (
                     <Login token={token} setToken={setToken}/>
                 ) : (
-                    <NewPost />
+                    <NewPost token={token} postings={postings} setPostings={setPostings}/>
                 )
             }
         </aside>

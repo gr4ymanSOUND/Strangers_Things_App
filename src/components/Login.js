@@ -16,6 +16,7 @@ const Login = ({ setToken}) => {
     const saveToken = (token) => {
       setToken(token);
       localStorage.setItem('jwt', token);
+      // maybe leave username in state for showing the username at the top of the profile page? might also be in the user object, so will check there as well
       setUserName('');
       setPassword('');
     }

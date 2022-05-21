@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router , Route , Link, useHistory } from 'react-router-dom';
-import { fetchAllPosts } from "./api";
+import { fetchAllPosts, fetchUserData } from "./api";
 import Posts from './components/Posts';
 import Profile from './components/Profile';
 
@@ -18,21 +18,36 @@ const App = () => {
     
     const [token, setToken] = useState(tokenFromStorage);
     const [postings, setPostings] = useState([]);
+    const [userData, setUserData] = useState({})
 
-    // does API call for basic postings data
+    // API calls for basic postings data and user data (posts and messages)
+    useEffect(() => {
+        async function fetchPosts() {
+            const postData = await fetchAllPosts(token);
+            setPostings(postData.data.posts);
+            console.log('fetched posts');
+            const userDataResponse = await fetchUserData(token);
+        }
+        fetchPosts();
+    }, [])
+
     useEffect(() => {
         async function fetchData() {
-            const result = await fetchAllPosts(token);
-            setPostings(result.data.posts);
-            console.log(postings);
+            const userDataResponse = await fetchUserData(token);
+            setUserData(userDataResponse);
+            console.log('User data response in useEffect ', userDataResponse)
+            console.log('user data state from src index: ', userData);
         }
         fetchData();
-    }, [])
+    },[])
 
     return (
         <Router>
             <header>
                 <h1>Stranger's Things!</h1>
+                {/* <Link className='top-nav-link' to='/profile'>{
+                    token ? userData.username : 'Log In'
+                }</Link> */}
             </header>
             <div id='content-body'>
                 {
@@ -43,13 +58,18 @@ const App = () => {
                         token={token}
                         setToken={setToken}
                         postings={postings}
+                        setPostings={setPostings}
                         history={history}
                     />
                 </Route>
                 <Route path='/profile'>
                     <Profile
+                        postings={postings}
+                        setPostings={setPostings}
                         token={token}
                         setToken={setToken}
+                        userData={userData}
+                        setUserData={setUserData}
                         history={history}
                     />
                 </Route>
@@ -58,6 +78,7 @@ const App = () => {
                         token={token}
                         setToken={setToken}
                         postings={postings}
+                        setPostings={setPostings}
                         history={history}
                     />
                 </Route>

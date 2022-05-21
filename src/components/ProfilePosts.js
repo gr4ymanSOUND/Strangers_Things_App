@@ -2,29 +2,28 @@ import React from "react";
 import Messages from "./Messages";
 import { deletePost } from "../api";
 
-const AuthPosts = (props) => {
+const ProfilePosts = (props) => {
 
-    const {token, postings, setPostings, history} = props;
+    const {token, userData, setUserData, history} = props;
 
-    console.log('authposts postings: ', postings)
+    console.log('user data inside ProfilePosts: ', userData)
 
     const handleDelete = async (token, postId) => {
         console.log(token, postId);
-        await deletePost(token, postId);
+        deletePost(token, postId);
 
-        const newPostings = postings.filter((post) => post.active);
-        setPostings(newPostings);
-
-        console.log('post deleted: ', postings);
+        console.log('post deleted: ', userData.posts);
         document.getElementById(postId).style.display = 'none'
     }
-
 
     return (
         <>
         {
-            postings.map((post) => {
-
+            userData.posts.map((post) => {
+                // if the post is inactive, don't show it on the screen
+                if (!post.active) {
+                    return null
+                }
                 // takes the date provided by the API, converts it to a Date Object and then converts it to a new string with a more readable format for display
                 let date = new Date(post.createdAt);
                 let postDate = date.toDateString();                
@@ -32,7 +31,6 @@ const AuthPosts = (props) => {
                 return(
                     <div className='post' key={post._id} id={post._id}>
                         <h3>{post.title}<span className='post-date'>{postDate}</span></h3>
-                        <div>Contact: {post.author.username}</div>
                         <div>Location: {post.location}</div>
                         <div>Price: {post.price}</div>
                         <div>{
@@ -45,13 +43,7 @@ const AuthPosts = (props) => {
                             ) : null
                         }
                         {
-                        // ternary to display the delete or message button depending on whether the user is the Author of the post
-                        post.isAuthor ? (
-                            <button type='button' onClick={() => {
-                                handleDelete(token, post._id)
-                            }}
-                            >Delete Post</button>
-                        ) : <button>Send Message</button>
+                            <button type='button' onClick={() => {handleDelete(token, post._id)}}>Delete Post</button>
                         }
                     </div>
                 )
@@ -61,4 +53,4 @@ const AuthPosts = (props) => {
     )
 }
 
-export default AuthPosts;
+export default ProfilePosts;

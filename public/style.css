@@ -21,6 +21,15 @@ header {
     text-align: center;
     flex-basis: 6rem;
     padding: 10px;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    padding-left: 1rem;
 }
 
 #content-body {
@@ -58,6 +67,10 @@ main {
     float: right;
 }
 
+.page-title {
+    color: black;
+}
+
 aside {
     width: 35%;
     max-width: 400px;
@@ -80,6 +93,18 @@ footer {
 }
 
 .nav-link:hover {
+    text-decoration: underline;
+}
+
+.top-nav-link {
+    font-size: 1.5rem;
+    display: inline-block;
+    text-decoration: none;
+    padding: 1rem;
+    color: white;
+}
+
+.top-nav-link:hover {
     text-decoration: underline;
 }
 

@@ -44,7 +44,7 @@ const Profile = ({token, postings, setPostings, setToken, userData, setUserData,
             </main>
             <aside>
                 <NewPost token={token} postings={postings} setPostings={setPostings}/>
-                {/* <h2>Username: {userData.username}</h2> */}
+                <h2>Username: {userData.username}</h2>
                 <button>Log Out</button>
             </aside>
             </>

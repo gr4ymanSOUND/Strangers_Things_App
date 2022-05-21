@@ -45,9 +45,9 @@ const App = () => {
         <Router>
             <header>
                 <h1>Stranger's Things!</h1>
-                {/* <Link className='top-nav-link' to='/profile'>{
+                <Link className='top-nav-link' to='/profile'>{
                     token ? userData.username : 'Log In'
-                }</Link> */}
+                }</Link>
             </header>
             <div id='content-body'>
                 {

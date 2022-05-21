@@ -10,7 +10,7 @@ const AuthPosts = (props) => {
 
     const handleDelete = async (token, postId) => {
         console.log(token, postId);
-        await deletePost(token, postId);
+        deletePost(token, postId);
 
         const newPostings = postings.filter((post) => post.active);
         setPostings(newPostings);

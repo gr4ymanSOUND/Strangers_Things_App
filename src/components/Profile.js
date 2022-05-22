@@ -4,9 +4,9 @@ import NewPost from "./NewPost";
 import ProfilePosts from "./ProfilePosts";
 import { fetchUserData } from "../api";
 
-const Profile = ({token, postings, setPostings, setToken, userData, setUserData, history}) => {
+const Profile = ({token, postings, setPostings, setToken, userData, setUserData}) => {
 
-    console.log('user data passed to profile: ', userData);
+    // console.log('user data passed to profile: ', userData);
 
     // use history to redirect like this: ****** currently broken for some reason
     // history.push('/Profile');
@@ -19,14 +19,13 @@ const Profile = ({token, postings, setPostings, setToken, userData, setUserData,
                 token ? (
                 <main>
                 <div className={'profile-content'}>
-                    <h3 className='page-title'>{`${userData.username}'s Posts and Messages`}</h3>
+                    <h2 className='page-title'>{`${userData.username}'s Posts and Messages`}</h2>
                         {(JSON.stringify(userData) !== '{}') ? (<ProfilePosts 
                             token={token}
                             postings={postings}
                             setPostings={setPostings}
                             userData={userData}
                             setUserData={setUserData}
-                            history={history} 
                         />): null}
                 </div>
                 </main>

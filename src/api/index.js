@@ -2,15 +2,20 @@
 
 const BASE_URL = 'https://strangers-things.herokuapp.com/api/2022-FTB-ET-WEB-PT';
 
+const makeHeaders = (token) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+    }
+    return headers;
+}
+
 export async function fetchAllPosts(token) {
     try {
         const response = await fetch(`${BASE_URL}/posts`, token ? {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + token
-                }
-            } : {});
+            method: 'GET',
+            headers: makeHeaders(token)
+        } : {});
         const result = await response.json();
         return result;
     } catch (err) {
@@ -22,10 +27,7 @@ export async function makeNewPost(token, postTitle, postDescription, postPrice, 
     try {
         const response = await fetch(`${BASE_URL}/posts`, {
             method: "POST",
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + token
-            },
+            headers: makeHeaders(token),
             body: JSON.stringify({
               post: {
                 title: postTitle,
@@ -49,10 +51,7 @@ export async function deletePost(token, postId) {
     try {
         const response = await fetch(`${BASE_URL}/posts/${postId}`, {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            }
+            headers: makeHeaders(token)
         });
         const result = await response.json();
         console.log('Delete post: ', result)
@@ -112,16 +111,31 @@ export async function loginUser(user, pass) {
 export async function fetchUserData(token) {
     try {
         const response = await fetch(`${BASE_URL}/users/me`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            }
+            headers: makeHeaders(token)
         });
         const result = await response.json();
         console.log('user API: ', result);
         return result;
     } catch (err) {
         console.log('user call error: ' + err);
+    }
+}
+
+export async function sendMessage(token, postId, messageContent) {
+    try {
+        const response = await fetch(`${BASE_URL}/posts/${postId}/messages`, {
+            method: 'POST',
+            headers: makeHeaders(token),
+            body: JSON.stringify({
+                message: {
+                    content: messageContent
+                }
+            })
+        })
+        const result = await response.json();
+        return result;
+    } catch (err) {
+        console.log('Message failed to send: ', err.message)
     }
 }
 

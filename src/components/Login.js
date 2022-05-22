@@ -15,7 +15,7 @@ const Login = ({ setToken, history }) => {
       if (result.success)  {
         setToken(result.data.token);
         localStorage.setItem('jwt', result.data.token);
-        // setUserName(''); decided to keep the username in state until logging out for use in a few places
+        setUserName('');
         setPassword('');
         // history isn't working
         // history.push('/posts');
@@ -38,7 +38,7 @@ const Login = ({ setToken, history }) => {
     }
   
     return (
-      <form onSubmit={submitHandler}>
+      <form className='login-form' onSubmit={submitHandler}>
         <h3 id='form-message'>Please Log In</h3>
         <ul id="register-requirements">
             <li>username must be at least 8 characters</li>
@@ -57,7 +57,7 @@ const Login = ({ setToken, history }) => {
           />
         </div>
         <div className="form-section">
-          <label className="form-label">Password: </label>
+          <label className="form-label">Password:</label>
           <input
             type="password"
             minLength={'7'}

@@ -37,19 +37,15 @@ const ProfilePosts = (props) => {
                 return(
                     <div className='post' key={post._id} id={post._id}>
                         <h3>{post.title}<span className='post-date'>{postDate}</span></h3>
-                        <div>Price: {post.price}</div>
-                        <div>{
-                            post.willDeliver ? 'Will Deliver' : 'Requires Pickup'   
-                        }</div>
-                        <p>{post.description}</p>
-                        {
-                            post.isAuthor ? (
-                                <Messages messages={post.messages}/>
-                            ) : null
-                        }
-                        {
-                            <button type='button' onClick={() => {handleDelete(token, post._id)}}>Delete Post</button>
-                        }
+                        <div className='post-body'>
+                            <div>Price: {post.price}</div>
+                            <div>{
+                                post.willDeliver ? 'Will Deliver' : 'Requires Pickup'   
+                            }</div>
+                            <p>{post.description}</p>
+                            <Messages messages={post.messages}/>
+                            <button id='delete-button' type='button' onClick={() => {handleDelete(token, post._id)}}>Delete Post</button>
+                        </div>
                     </div>
                 )
             })

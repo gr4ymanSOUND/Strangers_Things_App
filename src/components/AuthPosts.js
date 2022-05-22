@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Messages from "./Messages";
-import { deletePost } from "../api";
+import MessageForm from "./MessageForm";
+import { deletePost, sendMessage } from "../api";
 
-const AuthPosts = (props) => {
+const AuthPosts = ({token, postings, setPostings}) => {
 
-    const {token, postings, setPostings, history} = props;
-
-    console.log('authposts postings: ', postings)
+    // console.log('authposts postings: ', postings)
 
     const handleDelete = async (token, postId) => {
         console.log(token, postId);
         deletePost(token, postId);
-        console.log('post deleted: ', postings);
+        console.log('post deleted: ');
 
         const newPostings = postings.filter((post) => post.active);
         setPostings(newPostings);
@@ -19,8 +18,7 @@ const AuthPosts = (props) => {
         document.getElementById(postId).style.display = 'none'
     }
 
-
-    return (
+    return (postings.length) ? (
         <>
         {
             postings.map((post) => {
@@ -32,33 +30,34 @@ const AuthPosts = (props) => {
                 return(
                     <div className='post' key={post._id} id={post._id}>
                         <h3>{post.title}<span className='post-date'>{postDate}</span></h3>
-                        <div>Contact: {post.author.username}</div>
-                        <div>Location: {post.location}</div>
-                        <div>Price: {post.price}</div>
-                        <div>{
-                            post.willDeliver ? 'Will Deliver' : 'Requires Pickup'   
-                        }</div>
-                        <p>{post.description}</p>
-                        {
+                        <div className='post-body'>
+                            <div className='post-section'>Contact: <span>{post.author.username}</span></div>
+                            <div className='post-section'>Location: <span>{post.location}</span></div>
+                            <div className='post-section'>Price: <span>{post.price}</span></div>
+                            <div className='post-section'>{
+                                post.willDeliver ? 'Will Deliver' : 'Requires Pickup'   
+                            }</div>
+                            <div className='post-section'>Item Description:</div>
+                            <p>{post.description}</p>
+                            {
+                                post.isAuthor ? (
+                                    <Messages messages={post.messages}/>
+                                ) : <MessageForm token={token} postId={post._id}/>
+                            }
+                            {
+                            // ternary to display the delete or message button depending on whether the user is the Author of the post
                             post.isAuthor ? (
-                                <Messages messages={post.messages}/>
+                                <button id='delete-button' type='button' onClick={() => { handleDelete(token, post._id) }}
+                                >Delete Post</button>
                             ) : null
-                        }
-                        {
-                        // ternary to display the delete or message button depending on whether the user is the Author of the post
-                        post.isAuthor ? (
-                            <button type='button' onClick={() => {
-                                handleDelete(token, post._id)
-                            }}
-                            >Delete Post</button>
-                        ) : <button>Send Message</button>
-                        }
+                            }
+                        </div>
                     </div>
                 )
             })
         }
         </>
-    )
+    ) : null
 }
 
 export default AuthPosts;

@@ -11,23 +11,26 @@ const NewPost = ({token, postings, setPostings}) => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
+
         //code to handle when the submit button is clicked
+        console.log('new post data: ', postTitle, postDescription, postPrice, postLocation, postDeliver);
+
         const newPost = await makeNewPost(token, postTitle, postDescription, postPrice, postLocation, postDeliver);
         setPostings([...postings, newPost.data.post])
-        console.log(postTitle, postDescription, postPrice, postLocation, postDeliver);
+
         // reset the form after submission
         setPostTitle('')
         setPostDescription('')
         setPostPrice('')
-        setPostLocation('')
+        setPostLocation(null)
         setPostDeliver(false)
         alert('Your post has been submitted!');
     }
 
     return (
-        <form onSubmit={submitHandler}>
+        <form className='post-form' onSubmit={submitHandler}>
+            <h3 id='form-message'>Make a New Post</h3>
             <div className='form-section'>
-                <h3>Make a New Post</h3>
                 <div className='form-label'>Post Title:</div>
                 <input
                     type='text'
@@ -43,8 +46,6 @@ const NewPost = ({token, postings, setPostings}) => {
                         // resize: none in style for textarea to disable resizing
                 }
                 <textarea
-                    rows='5'
-                    cols='30'
                     value={postDescription}
                     onChange={({target: {value}}) => setPostDescription(value)}
                     id='new-post-description'
@@ -71,7 +72,7 @@ const NewPost = ({token, postings, setPostings}) => {
                 />
             </div>
             <div className='form-section'>
-                <label className='form-label'>Deliver?</label>
+                <label className='form-label'>Is Delivery Included? </label>
                 <input
                     type='checkbox'
                     onChange={({target: {checked}}) => setPostDeliver(checked)}
@@ -79,7 +80,7 @@ const NewPost = ({token, postings, setPostings}) => {
                     checked={postDeliver}
                 />
             </div>
-            <button type='submit'>submit</button>
+            <button type='submit'>Submit</button>
         </form>
     )
 }

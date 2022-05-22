@@ -11,11 +11,11 @@ const AuthPosts = (props) => {
     const handleDelete = async (token, postId) => {
         console.log(token, postId);
         deletePost(token, postId);
+        console.log('post deleted: ', postings);
 
         const newPostings = postings.filter((post) => post.active);
         setPostings(newPostings);
 
-        console.log('post deleted: ', postings);
         document.getElementById(postId).style.display = 'none'
     }
 

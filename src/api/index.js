@@ -119,7 +119,7 @@ export async function fetchUserData(token) {
         });
         const result = await response.json();
         console.log('user API: ', result);
-        return result.data;
+        return result;
     } catch (err) {
         console.log('user call error: ' + err);
     }

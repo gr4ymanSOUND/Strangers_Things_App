@@ -40,7 +40,7 @@ const Posts = (props) => {
         <aside>
             {
                 !token ? (
-                    <Login token={token} setToken={setToken}/>
+                    <Login setToken={setToken} history={history}/>
                 ) : (
                     <NewPost token={token} postings={postings} setPostings={setPostings}/>
                 )

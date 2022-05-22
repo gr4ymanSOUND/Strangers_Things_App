@@ -20,7 +20,8 @@ const NewPost = ({token, postings, setPostings}) => {
         setPostDescription('')
         setPostPrice('')
         setPostLocation('')
-        setPostDeliver('')
+        setPostDeliver(false)
+        alert('Your post has been submitted!');
     }
 
     return (
@@ -75,6 +76,7 @@ const NewPost = ({token, postings, setPostings}) => {
                     type='checkbox'
                     onChange={({target: {checked}}) => setPostDeliver(checked)}
                     id='new-post-deliver'
+                    checked={postDeliver}
                 />
             </div>
             <button type='submit'>submit</button>

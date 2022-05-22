@@ -4,22 +4,28 @@ import { deletePost } from "../api";
 
 const ProfilePosts = (props) => {
 
-    const {token, userData, setUserData, history} = props;
+    const {token, postings, setPostings, userData, setUserData, history} = props;
 
     console.log('user data inside ProfilePosts: ', userData)
+
+    let userPosts = userData.posts;
+    console.log('user post lists: ', userPosts);
 
     const handleDelete = async (token, postId) => {
         console.log(token, postId);
         deletePost(token, postId);
-
         console.log('post deleted: ', userData.posts);
+
+        const newPostings = postings.filter((post) => post.active);
+        setPostings(newPostings);
+        
         document.getElementById(postId).style.display = 'none'
     }
 
     return (
         <>
         {
-            userData.posts.map((post) => {
+            userPosts.map((post) => {
                 // if the post is inactive, don't show it on the screen
                 if (!post.active) {
                     return null
@@ -31,7 +37,6 @@ const ProfilePosts = (props) => {
                 return(
                     <div className='post' key={post._id} id={post._id}>
                         <h3>{post.title}<span className='post-date'>{postDate}</span></h3>
-                        <div>Location: {post.location}</div>
                         <div>Price: {post.price}</div>
                         <div>{
                             post.willDeliver ? 'Will Deliver' : 'Requires Pickup'   

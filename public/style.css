@@ -43,8 +43,8 @@ header h1 {
 main {
     color: white;
     width: 60%;
-    max-width: 600px;
-    margin: 2rem;
+    max-width: 650px;
+    margin: 1.5rem;
 }
 
 .post {
@@ -72,10 +72,11 @@ main {
 }
 
 aside {
+    min-width: 200px;
     width: 35%;
     max-width: 400px;
     border: 1px black solid;
-    margin: 2rem;
+    margin: 1.5rem;
 }
 
 footer {
@@ -109,7 +110,7 @@ footer {
 }
 
 form {
-    width: 20rem;
+    /* width: 20rem; */
     margin: 2rem auto;
     display: flex;
     flex-flow: column nowrap;
@@ -124,3 +125,6 @@ form {
     font-size: .75rem;
 }
 
+textarea {
+    resize: none;
+}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { loginUser, registerUser } from "../api";
 
-const Login = ({ setToken}) => {
+const Login = ({ setToken, history }) => {
     //form state
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
@@ -11,14 +11,17 @@ const Login = ({ setToken}) => {
     // test user: testAustintest
     // pass: testing
 
-    // add log out function if extra time
-
-    const saveToken = (token) => {
-      setToken(token);
-      localStorage.setItem('jwt', token);
-      // maybe leave username in state for showing the username at the top of the profile page? might also be in the user object, so will check there as well
-      setUserName('');
-      setPassword('');
+    const handleLoginAttempt = (result) => {
+      if (result.success)  {
+        setToken(result.data.token);
+        localStorage.setItem('jwt', result.data.token);
+        // setUserName(''); decided to keep the username in state until logging out for use in a few places
+        setPassword('');
+        // history isn't working
+        // history.push('/posts');
+      } else {
+        alert(`${result.error.name}: ${result.error.message}`)
+      } 
     }
     
     const submitHandler = async (e) => {
@@ -26,13 +29,11 @@ const Login = ({ setToken}) => {
         if (register) {
             console.log('testing register function: ', userName, password);
             let result = await registerUser(userName, password)
-            console.log(result.data);
-            saveToken(result.data.token);
+            handleLoginAttempt(result);
         } else {
             console.log('testing login function: ', userName, password);
             let result = await loginUser(userName, password);
-            console.log(result.data);
-            saveToken(result.data.token);
+            handleLoginAttempt(result);
         }
     }
   
@@ -56,7 +57,7 @@ const Login = ({ setToken}) => {
           />
         </div>
         <div className="form-section">
-          <label className="form-label">Password:</label>
+          <label className="form-label">Password: </label>
           <input
             type="password"
             minLength={'7'}

@@ -4,9 +4,7 @@ import Login from "./Login";
 import NewPost from "./NewPost";
 
 
-const Posts = (props) => {
-
-    const {token, setToken, postings, setPostings} = props;
+const Posts = ({token, setToken, postings, setPostings}) => {
 
     return (
         <>
@@ -24,8 +22,11 @@ const Posts = (props) => {
                 return(
                     <div className='post' key={post._id}>
                         <h3>{post.title}<span className='post-date'>{postDate}</span></h3>
-                        <div className='post-section'>Price: <span>{post.price}</span></div>
-                        <p className='post-section'><span>{post.description}</span></p>  
+                        <div className='post-body'>
+                            <div className='post-section'>Price: <span>{post.price}</span></div>
+                            <div className='post-section'>Item Description: <span>{post.description}</span></div>  
+                            <div className='post-tagline'>Log in to see more details and send this user a message!</div>
+                        </div>
                     </div>
                 )
             })) : (
@@ -38,6 +39,7 @@ const Posts = (props) => {
         </main>
         <aside>
             {
+                // ternary decides whether to show the login form or the new post form
                 !token ? (
                     <Login setToken={setToken} />
                 ) : (

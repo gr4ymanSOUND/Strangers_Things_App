@@ -5,8 +5,7 @@ import { deletePost, sendMessage } from "../api";
 
 const AuthPosts = ({token, postings, setPostings}) => {
 
-    // console.log('authposts postings: ', postings)
-
+    // handles deleting a post -- calls the API, then filters the postings list to include only the active
     const handleDelete = async (token, postId) => {
         console.log(token, postId);
         deletePost(token, postId);
@@ -35,7 +34,7 @@ const AuthPosts = ({token, postings, setPostings}) => {
                             <div className='post-section'>Location: <span>{post.location}</span></div>
                             <div className='post-section'>Price: <span>{post.price}</span></div>
                             <div className='post-section'>{
-                                post.willDeliver ? 'Will Deliver' : 'Requires Pickup'   
+                                post.willDeliver ? 'Seller Will Deliver' : 'Item Requires Pickup'   
                             }</div>
                             <div className='post-section'>Item Description:</div>
                             <p>{post.description}</p>
@@ -47,7 +46,7 @@ const AuthPosts = ({token, postings, setPostings}) => {
                             {
                             // ternary to display the delete or message button depending on whether the user is the Author of the post
                             post.isAuthor ? (
-                                <button id='delete-button' type='button' onClick={() => { handleDelete(token, post._id) }}
+                                <button className='delete-button' type='button' onClick={() => { handleDelete(token, post._id) }}
                                 >Delete Post</button>
                             ) : null
                             }

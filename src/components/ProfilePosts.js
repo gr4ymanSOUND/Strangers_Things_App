@@ -44,7 +44,7 @@ const ProfilePosts = (props) => {
                             }</div>
                             <p>{post.description}</p>
                             <Messages messages={post.messages}/>
-                            <button id='delete-button' type='button' onClick={() => {handleDelete(token, post._id)}}>Delete Post</button>
+                            <button className='delete-button' type='button' onClick={() => {handleDelete(token, post._id)}}>Delete Post</button>
                         </div>
                     </div>
                 )

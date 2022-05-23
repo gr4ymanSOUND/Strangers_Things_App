@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router , Route , Link, Switch, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router , Route , Link, Switch } from 'react-router-dom';
 import { fetchAllPosts, fetchUserData } from "./api";
 import Posts from './components/Posts';
 import Profile from './components/Profile';
@@ -10,13 +10,10 @@ const root = createRoot(container);
 
 const App = () => {
 
-    // set up history for use in redirecting throughout the app
-    // let history = useHistory();
-    // console.log('history', history)
-
     // pull the jwt from local storage if it's there, use it to set the token state
     const tokenFromStorage = localStorage.getItem('jwt');
     
+    // set up the main state variables
     const [token, setToken] = useState(tokenFromStorage);
     const [postings, setPostings] = useState([]);
     const [userData, setUserData] = useState({})
@@ -27,10 +24,6 @@ const App = () => {
             const postData = await fetchAllPosts(token);
             setPostings(postData.data.posts);
             console.log('fetched posts');
-            // const userDataResponse = await fetchUserData(token);
-            // setUserData(userDataResponse);
-            // console.log('User data response in useEffect ', userDataResponse)
-            // console.log('user data state from src index: ', userData);            
         }
         fetchPosts();
     }, [token])
@@ -41,19 +34,19 @@ const App = () => {
             const userDataResponse = await fetchUserData(token);
             setUserData(userDataResponse.data);
         }
+        // no reason to even fetch the data if there isn't a token stored, was getting some errors on first page load from this
         if(token) {
             fetchData();
             console.log('User Data has been fetched if available');
         }
-        
     }, [postings])
 
+
+    // handles logging out the user
     const logOut = () => {
         setToken(null);
         localStorage.removeItem('jwt');
     }
-
-    // console.log('username before rendering app: ', userData.username);
 
     return (
         <Router>
@@ -65,13 +58,9 @@ const App = () => {
                     {
                         token ? (<button onClick={logOut}>Log Out</button>) : null
                     }
-                </div>
-                
+                </div>    
             </header>
             <div id='content-body'>
-                {
-                    // include the search bar here if we get to that
-                }
                 <Switch>
                     <Route path='/posts' >
                         <Posts
@@ -82,7 +71,6 @@ const App = () => {
                             history={history}
                         />
                     </Route>
-
                     <Route path='/profile'>
                         <Profile
                             token={token}
@@ -94,7 +82,6 @@ const App = () => {
                             history={history}
                         />
                     </Route>
-
                     <Route exact path='/'>
                         <Posts
                             token={token}

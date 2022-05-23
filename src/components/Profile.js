@@ -6,14 +6,10 @@ import { fetchUserData } from "../api";
 
 const Profile = ({token, postings, setPostings, setToken, userData, setUserData}) => {
 
-    // console.log('user data passed to profile: ', userData);
-
-    // use history to redirect like this: ****** currently broken for some reason
-    // history.push('/Profile');
-
+    // check if the token is in state
+        // if not, don't render the entire <main> tag, just render the aside -- styling will center it on the page
 
     return (
-        // !token ? <Login setToken={setToken} history={history} /> : (
             <>
             {
                 token ? (
@@ -32,15 +28,13 @@ const Profile = ({token, postings, setPostings, setToken, userData, setUserData}
                 ) : null
             }
             <aside>
-                {/* <NewPost token={token} postings={postings} setPostings={setPostings}/>    */}
                 {
+                    // if there is no token in state, the aside should be filled with the login form; if there is, we want to allow the user to make new posts from this page as well.
                     !token ? <Login setToken={setToken}/> : <NewPost token={token} postings={postings} setPostings={setPostings}/> 
                 }             
             </aside>
             </>
-        // )
     )
-
 }
 
 export default Profile;

@@ -3,18 +3,20 @@ import { makeNewPost } from "../api";
 
 const NewPost = ({token, postings, setPostings}) => {
 
+    // set up state for the form
+
     const [postTitle, setPostTitle] = useState('');
     const [postDescription, setPostDescription] = useState('');
     const [postPrice, setPostPrice] = useState('');
     const [postLocation, setPostLocation] = useState('');
     const [postDeliver, setPostDeliver] = useState(false);
 
+    // handle the submit for the form --
     const submitHandler = async (e) => {
         e.preventDefault();
-
-        //code to handle when the submit button is clicked
         console.log('new post data: ', postTitle, postDescription, postPrice, postLocation, postDeliver);
 
+        // call the API to make a new post, then add the result of the API call to the postings array
         const newPost = await makeNewPost(token, postTitle, postDescription, postPrice, postLocation, postDeliver);
         setPostings([...postings, newPost.data.post])
 
@@ -75,6 +77,7 @@ const NewPost = ({token, postings, setPostings}) => {
                 <label className='form-label'>Is Delivery Included? </label>
                 <input
                     type='checkbox'
+                    // took a while to figure out how to set and reset the state based on whether the checkbox was selected -- need to use target: {checked} in the onChange AND set checked to the state
                     onChange={({target: {checked}}) => setPostDeliver(checked)}
                     id='new-post-deliver'
                     checked={postDeliver}

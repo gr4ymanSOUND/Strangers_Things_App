@@ -2,6 +2,8 @@
 
 const BASE_URL = 'https://strangers-things.herokuapp.com/api/2022-FTB-ET-WEB-PT';
 
+
+// helper to make the headers section for the API calls
 const makeHeaders = (token) => {
     const headers = {
         'Content-Type': 'application/json',
@@ -10,6 +12,7 @@ const makeHeaders = (token) => {
     return headers;
 }
 
+// retreive the posts list, passing in the token
 export async function fetchAllPosts(token) {
     try {
         const response = await fetch(`${BASE_URL}/posts`, token ? {
@@ -23,6 +26,7 @@ export async function fetchAllPosts(token) {
     }
 }
 
+// create a new post
 export async function makeNewPost(token, postTitle, postDescription, postPrice, postLocation, postDeliver) {
     try {
         const response = await fetch(`${BASE_URL}/posts`, {
@@ -47,6 +51,7 @@ export async function makeNewPost(token, postTitle, postDescription, postPrice, 
     }
 }
 
+// delete a post, passing in its ID - the call will fail if the token passed in doesn't match the user that created the post, but I also don't even show the button if they're not so we shouldn't see that error ever
 export async function deletePost(token, postId) {
     try {
         const response = await fetch(`${BASE_URL}/posts/${postId}`, {
@@ -61,8 +66,8 @@ export async function deletePost(token, postId) {
     }
 }
 
+// create a new user account
 export async function registerUser(user, pass) {
-    // needs to pass user object with username an password string properties
     try {
         const response = await fetch(`${BASE_URL}/users/register`, {
             method: 'POST',
@@ -70,6 +75,7 @@ export async function registerUser(user, pass) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+            // needs to pass a user object with username an password string properties
                 user: {
                     username: user,
                     password: pass
@@ -84,8 +90,8 @@ export async function registerUser(user, pass) {
     }
 }
 
+// log in with an existing account
 export async function loginUser(user, pass) {
-    // needs to pass user object with username an password string properties
     try {
         const response = await fetch(`${BASE_URL}/users/login`, {
             method: 'POST',
@@ -93,6 +99,7 @@ export async function loginUser(user, pass) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+            // needs to pass user object with username an password string properties
                 user: {
                     username: user,
                     password: pass
@@ -108,6 +115,7 @@ export async function loginUser(user, pass) {
     }
 }
 
+// retrieve the user object -- used for the posts and messages on the profile (no need to filter the posts based on isAuthor)
 export async function fetchUserData(token) {
     try {
         const response = await fetch(`${BASE_URL}/users/me`, {
@@ -121,6 +129,7 @@ export async function fetchUserData(token) {
     }
 }
 
+// send a message on a specified post
 export async function sendMessage(token, postId, messageContent) {
     try {
         const response = await fetch(`${BASE_URL}/posts/${postId}/messages`, {

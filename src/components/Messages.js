@@ -2,21 +2,13 @@ import React from 'react'
 
 const Messages = ({messages}) => {
 
-    // let testmessages = [{
-    //     fromUser: {
-    //         username: 'test'
-    //     },
-    //     content: 'test'
-    // }];
-
-    // testmessages = [];
-
-        
+    // I separated out this map function for the messages into its own component -- I realized that I could use the exact same syntax for accessing messages from the main post object and the post object inside the user object, so I used this component on the profile and authorized posts view
 
     return (
         <div className='post-messages'>
             <h4>Messages</h4>
             {
+            // ternary checks if the messages array is empty, maps through the array if there is content
             (messages.length !== 0) ? (
                 messages.map((message, index) => {
                     return (

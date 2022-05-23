@@ -2,28 +2,36 @@ import React, { useState } from "react";
 import { loginUser, registerUser } from "../api";
 
 const Login = ({ setToken, history }) => {
-    //form state
+
+    //set up the state for the form
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
+    // by default, we want to use the login functionality - there is a button that changes this variable which in turn changes which function the event handler calls
     let register = false;
 
-    // test user: testAustintest
+    // test users
+    // user: testAustintest
     // pass: testing
 
+    // user: testAustinUser
+    // pass: testing1
+
+    // handles the result of the login or register API calls
     const handleLoginAttempt = (result) => {
+      // if successful, set the token in state and local storage, then clear the form
       if (result.success)  {
         setToken(result.data.token);
         localStorage.setItem('jwt', result.data.token);
         setUserName('');
         setPassword('');
-        // history isn't working
-        // history.push('/posts');
       } else {
+        // if it failed, log the error
         alert(`${result.error.name}: ${result.error.message}`)
       } 
     }
     
+    // handles the submit event, checking whether we're registering or logging in, then calling the correct API function
     const submitHandler = async (e) => {
         e.preventDefault();
         if (register) {
@@ -42,7 +50,7 @@ const Login = ({ setToken, history }) => {
         <h3 id='form-message'>Please Log In</h3>
         <ul id="register-requirements">
             <li>username must be at least 8 characters</li>
-            <li>password must be at least 8 characters</li>
+            <li>password must be at least 7 characters</li>
         </ul>
         <div className="form-section">
           <label className="form-label">Username:</label>
@@ -60,6 +68,7 @@ const Login = ({ setToken, history }) => {
           <label className="form-label">Password:</label>
           <input
             type="password"
+            // I set my test user's password before setting this minLength... I wanted it to be 8...
             minLength={'7'}
             value={password}
             onChange={({target: {value}}) => setPassword(value)}
@@ -70,7 +79,9 @@ const Login = ({ setToken, history }) => {
         </div>
         <button id='submit-button' type='submit'>Login</button>
         <button id="register-switch" type='button' onClick={() => {
+            // swap the boolean stored in register to switch which function the submit uses
             register = !register;
+            // remove the register button, change the form title message and the text in the button, and show the registration requirements
             document.getElementById('register-switch').style.display = 'none';
             document.getElementById('form-message').innerText = 'Create a New User';
             let regRequirements = document.getElementById('register-requirements');
@@ -78,7 +89,6 @@ const Login = ({ setToken, history }) => {
             let submitButton = document.getElementById('submit-button');
             submitButton.innerText = "Register";
         }}>New? Click Here to Register</button>
-        
       </form>
     );
 };

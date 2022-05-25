@@ -68,6 +68,7 @@ export async function deletePost(token, postId) {
 
 // create a new user account
 export async function registerUser(user, pass) {
+    console.log("registering")
     try {
         const response = await fetch(`${BASE_URL}/users/register`, {
             method: 'POST',
@@ -92,6 +93,8 @@ export async function registerUser(user, pass) {
 
 // log in with an existing account
 export async function loginUser(user, pass) {
+    console.log("logging in")
+
     try {
         const response = await fetch(`${BASE_URL}/users/login`, {
             method: 'POST',

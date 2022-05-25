@@ -8,7 +8,8 @@ const Login = ({ setToken, history }) => {
     const [password, setPassword] = useState("");
 
     // by default, we want to use the login functionality - there is a button that changes this variable which in turn changes which function the event handler calls
-    let register = false;
+    // let register = false;
+    const [register, setRegister] = useState(false);
 
     // test users
     // user: testAustintest
@@ -34,6 +35,7 @@ const Login = ({ setToken, history }) => {
     // handles the submit event, checking whether we're registering or logging in, then calling the correct API function
     const submitHandler = async (e) => {
         e.preventDefault();
+        console.log('register in submit', register)
         if (register) {
             console.log('testing register function: ', userName, password);
             let result = await registerUser(userName, password)
@@ -79,8 +81,10 @@ const Login = ({ setToken, history }) => {
         </div>
         <button id='submit-button' type='submit'>Login</button>
         <button id="register-switch" type='button' onClick={() => {
+            console.log('register pre-click', register)
             // swap the boolean stored in register to switch which function the submit uses
-            register = !register;
+            setRegister(true);
+            console.log('register post-click', register)
             // remove the register button, change the form title message and the text in the button, and show the registration requirements
             document.getElementById('register-switch').style.display = 'none';
             document.getElementById('form-message').innerText = 'Create a New User';
